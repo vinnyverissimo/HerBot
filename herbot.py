@@ -8,8 +8,7 @@ import time
 _ = load_dotenv(find_dotenv())
 
 # ou outro modelo de sua preferência
-chat = ChatOpenAI(model_name='gpt-4o-mini')
-# chat = ChatOpenAI(model_name='gpt-3.5-turbo-0125')
+chat = ChatOpenAI(model_name='gpt-4o-mini', temperature=0.2)
 
 
 def resposta_bot(mensagens, documento, max_retries=3):
@@ -63,12 +62,18 @@ if prompt := st.chat_input("Faça sua pergunta:"):
     with st.chat_message('user'):
         st.markdown(prompt)
 
+    # Exibe um indicador de que o bot está "digitando"
+    with st.chat_message('assistant'):
+        typing_message = st.empty()  # Placeholder para a mensagem temporária
+        typing_message.markdown("digitando...")
+
     # Carrega o PDF e obtém a resposta do bot
     documento = carrega_pdf()
     resposta = resposta_bot(st.session_state.mensagens, documento)
 
+    # Substitui o indicador pela resposta final
+    typing_message.markdown(resposta)
+
     # Adiciona a resposta do bot ao histórico
     st.session_state.mensagens.append(
         {'role': 'assistant', 'content': resposta})
-    with st.chat_message('assistant'):
-        st.markdown(resposta)

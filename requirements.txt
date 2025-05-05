@@ -7,3 +7,4 @@ langchain_openai
 faiss-cpu
 telegram
 python-telegram-bot
+openai
