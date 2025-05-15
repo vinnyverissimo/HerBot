@@ -2,11 +2,13 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
 chat = ChatOpenAI(model_name='gpt-4o-mini', temperature=0.2)
+# chat = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0.2)
 
 
 def resposta_bot(pergunta, contexto, max_retries=3):
     mensagem_system = f'''Você é um assistente amigável chamado HerBot que responde perguntas no telegram. 
-    Você só pode responder EXCLUSIVAMENTE com base no seguinte contexto: {contexto}.'''
+    Você só pode responder EXCLUSIVAMENTE com base no seguinte contexto: {contexto}.
+    Sempre que possível, forneça respostas detalhadas, completas e explique de forma clara e didática.'''
     mensagens_modelo = [('system', mensagem_system), ('user', pergunta)]
     template = ChatPromptTemplate.from_messages(mensagens_modelo)
     chain = template | chat

@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 from indexing import cria_indice, busca_contexto
 from chat_engine import resposta_bot
 
@@ -34,8 +35,12 @@ if prompt := st.chat_input("Faça sua pergunta:"):
     contexto = busca_contexto(st.session_state.indice, prompt)
     resposta = resposta_bot(prompt, contexto)
 
-    # Substitui o indicador pela resposta final
-    typing_message.markdown(resposta)
+    # Exibe a resposta aos poucos (efeito de digitação)
+    displayed = ""
+    for char in resposta:
+        displayed += char
+        typing_message.markdown(displayed)
+        time.sleep(0.015)  # Ajuste a velocidade conforme desejar
 
     # Adiciona a resposta do bot ao histórico
     st.session_state.mensagens.append(
