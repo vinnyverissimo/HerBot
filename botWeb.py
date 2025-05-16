@@ -29,7 +29,7 @@ if prompt := st.chat_input("Faça sua pergunta:"):
     # Exibe um indicador de que o bot está "digitando"
     with st.chat_message('assistant'):
         typing_message = st.empty()
-        typing_message.markdown("digitando...")
+        typing_message.markdown("pensando...")
 
     # Busca contexto e obtém a resposta do bot
     contexto = busca_contexto(st.session_state.indice, prompt)

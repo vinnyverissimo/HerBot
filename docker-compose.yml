@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    image: herbot_web
+    container_name: herbot-web
+    env_file:
+      - .env
+    volumes:
+      - ./files:/app/files
+    ports:
+      - "8501:8501"
+    command: streamlit run botWeb.py --server.address=0.0.0.0
+
+  telegram:
+    build: .
+    image: herbot_telegram
+    container_name: herbot-telegram
+    env_file:
+      - .env
+    volumes:
+      - ./files:/app/files
+    command: python botTelegram.py
